@@ -27,6 +27,7 @@ This is for educational and testing purposes only; the code is only shared with 
 1. I get Manager died toast:
    
   Answer: It's ok
+  
 2. Some of the features like (Download songs) doesn't work!
 
   Answer: Just force stop anghami and try again!
