@@ -25,6 +25,43 @@ public class Module implements IXposedHookLoadPackage {
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals(AG_PACKAGE_NAME)) {
 
+            Class<?> pojo_profile_class = XposedHelpers.findClass("com.anghami.ghost.pojo.Profile", lpparam.classLoader);
+            Class<?> pojo_storyUser_class = XposedHelpers.findClass("com.anghami.ghost.pojo.stories.Story$User", lpparam.classLoader);
+            Class<?> pojo_rankedUser_class = XposedHelpers.findClass("com.anghami.ghost.pojo.RankedUser", lpparam.classLoader);
+            XposedHelpers.findAndHookMethod("com.anghami.ghost.utils.GoldUtilsKt", lpparam.classLoader, "isGold", pojo_profile_class, new XC_MethodReplacement() {
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return the modified value
+                    return true;
+                }
+            });
+
+            XposedHelpers.findAndHookMethod("com.anghami.ghost.utils.GoldUtilsKt", lpparam.classLoader, "isGold", pojo_storyUser_class, new XC_MethodReplacement() {
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return the modified value
+                    return true;
+                }
+            });
+
+            XposedHelpers.findAndHookMethod("com.anghami.ghost.utils.GoldUtilsKt", lpparam.classLoader, "isGold", pojo_rankedUser_class, new XC_MethodReplacement() {
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return the modified value
+                    return true;
+                }
+            });
+
+            XposedHelpers.findAndHookMethod("com.anghami.ghost.local.Account$PlanType", lpparam.classLoader, "getValue", new XC_MethodReplacement() {
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return the modified value
+                    return "7";
+                }
+            });
+
+            XposedHelpers.findAndHookMethod("com.anghami.odin.remote.c", lpparam.classLoader, "a", new XC_MethodReplacement() {
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return the modified value
+                    return true;
+                }
+            });
 
             // Account related - ghost.local.Account
             // Set to Plus values
@@ -96,7 +133,7 @@ public class Module implements IXposedHookLoadPackage {
             XposedHelpers.findAndHookMethod("com.anghami.ghost.model.proto.ProtoAccount$Account", lpparam.classLoader, "getMaxOfflineTime", new XC_MethodReplacement() {
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     // Always return the modified value
-                    return 864000;
+                    return 22967084;
                 }
             });
 
@@ -150,6 +187,14 @@ public class Module implements IXposedHookLoadPackage {
 
 
             XposedHelpers.findAndHookMethod("com.anghami.ghost.model.proto.ProtoAccount$Account", lpparam.classLoader, "getLyricsfreeenabled", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return false
+                    return false;
+                }
+            });
+
+            XposedHelpers.findAndHookMethod("com.anghami.ghost.model.proto.ProtoAccount$Account", lpparam.classLoader, "getEnablePlayerRestrictions", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     // Always return false
@@ -352,13 +397,13 @@ public class Module implements IXposedHookLoadPackage {
             });
 
             // Subscribe to Gold
-            XposedHelpers.findAndHookMethod("com.anghami.app.gold.d", lpparam.classLoader, "onViewCreated", android.view.View.class, android.os.Bundle.class, new XC_MethodReplacement() {
-                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                    // Always return the modified value
-                    showToast("Can be enabled I guess");
-                    return null;
-                }
-            });
+//            XposedHelpers.findAndHookMethod("com.anghami.app.gold.d", lpparam.classLoader, "onViewCreated", android.view.View.class, android.os.Bundle.class, new XC_MethodReplacement() {
+//                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+//                    // Always return the modified value
+//                    showToast("Can be enabled I guess");
+//                    return null;
+//                }
+//            });
 
 
             // Live Radio
@@ -378,14 +423,14 @@ public class Module implements IXposedHookLoadPackage {
                 }
             });
 
-            XposedHelpers.findAndHookMethod("com.anghami.app.base.list_fragment.f", lpparam.classLoader, "onGoLiveClick", new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod("com.anghami.app.base.list_fragment.g", lpparam.classLoader, "onGoLiveClick", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     showToast("Here is Live! 3");
                 }
             });
 
-            XposedHelpers.findAndHookMethod("com.anghami.app.base.list_fragment.f", lpparam.classLoader, "onLiveStoryClick", java.lang.String.class, new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod("com.anghami.app.base.list_fragment.g", lpparam.classLoader, "onLiveStoryClick", java.lang.String.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     showToast("Here is Live! 4");
@@ -395,7 +440,7 @@ public class Module implements IXposedHookLoadPackage {
             Class<?> requestLiveStory = XposedHelpers.findClass("com.anghami.ghost.pojo.livestories.LiveStory", lpparam.classLoader);
             Class<?> classLiveStoryAnalatic = XposedHelpers.findClass("com.anghami.app.stories.live_radio.LiveStoriesAnalyticsSource", lpparam.classLoader);
 
-            XposedHelpers.findAndHookMethod("com.anghami.app.base.list_fragment.f", lpparam.classLoader, "onLiveStoryClicked", requestLiveStory, classLiveStoryAnalatic, new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod("com.anghami.app.base.list_fragment.g", lpparam.classLoader, "onLiveStoryClicked", requestLiveStory, classLiveStoryAnalatic, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     showToast("Here is Live! 5");
@@ -403,7 +448,7 @@ public class Module implements IXposedHookLoadPackage {
             });
 
 
-            XposedHelpers.findAndHookMethod("a7.b", lpparam.classLoader, "goLive", new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod("f9.d", lpparam.classLoader, "goLive", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     showToast("Here is Live! 6");
@@ -418,14 +463,6 @@ public class Module implements IXposedHookLoadPackage {
                 }
             });
 
-            Class<?> n4Class = XposedHelpers.findClass("eb.g$a", lpparam.classLoader);
-            XposedHelpers.findAndHookMethod("com.anghami.app.main.MainActivity", lpparam.classLoader, "N4", n4Class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    showToast("Here is Live! 8");
-                }
-            });
-
             // Profile
             Class<?> classtoFind = XposedHelpers.findClass("com.anghami.ghost.analytics.Events$Navigation$GoToProfile$Subscription", lpparam.classLoader);
             XposedHelpers.findAndHookMethod("com.anghami.ghost.analytics.Events$Navigation$GoToProfile$Builder", lpparam.classLoader, "subscription", classtoFind, new XC_MethodHook() {
@@ -435,6 +472,78 @@ public class Module implements IXposedHookLoadPackage {
                     XposedBridge.log("Here 1");
                 }
             });
+
+            // trying to fix shuffle for free users
+
+            XposedHelpers.findAndHookMethod("com.anghami.odin.playqueue.PlayQueue", lpparam.classLoader, "skipLimit", accountClass, new XC_MethodReplacement() {
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return the modified value
+                    return -1;
+                }
+            });
+
+            XposedHelpers.findAndHookMethod("com.anghami.odin.playqueue.PlayQueue", lpparam.classLoader, "getDisableAds", new XC_MethodReplacement() {
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return the modified value
+                    return true;
+                }
+            });
+
+
+            XposedHelpers.findAndHookMethod("com.anghami.odin.playqueue.PlayQueue", lpparam.classLoader, "getDisableSkipLimit", new XC_MethodReplacement() {
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return the modified value
+                    return true;
+                }
+            });
+
+            XposedHelpers.findAndHookMethod("com.anghami.ghost.model.proto.ProtoAccount$Account", lpparam.classLoader, "getSkipModeRelated", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    // Log the original value before the method is called
+                    int originalValue = (int) XposedBridge.invokeOriginalMethod(param.method, param.thisObject, param.args);
+                    XposedBridge.log("Original getSkipModeRelated: " + originalValue);
+                }
+            });
+
+            XposedHelpers.findAndHookMethod("com.anghami.odin.playqueue.PlayQueue", lpparam.classLoader, "isSkipLogicEnabled",accountClass, new XC_MethodReplacement() {
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    // Always return the modified value
+                    return false;
+                }
+            });
+
+
+            // testing ads
+
+            Class<?> uiClass = XposedHelpers.findClass("com.anghami.ui.popupwindow.a$c", lpparam.classLoader);
+
+            XposedHelpers.findAndHookMethod("com.anghami.ui.popupwindow.PopupAdShower", lpparam.classLoader, "G0", uiClass, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    showToast("Here ads in UI");
+                }
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    showToast("Here ads in UI");
+                }
+            });
+
+
+            XposedHelpers.findAndHookMethod("com.anghami.ghost.local.Account$PlanType", lpparam.classLoader, "getValue", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    String accountType = (String) param.getResult();
+                    XposedBridge.log("accountTypeValue Before: " + accountType);
+                }
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    String accountType = (String) param.getResult();
+                    XposedBridge.log("accountTypeValue After: " + accountType);
+                }
+            });
+
+
 
             // Lyrics
             // Disable Upgrade button
@@ -483,25 +592,72 @@ public class Module implements IXposedHookLoadPackage {
                             Method urlMethod = originalRequest.getClass().getMethod("url");
                             Object originalUrl = urlMethod.invoke(originalRequest);
 
-                            if (shouldModifyUrl(originalRequest)){
+                            try {
+                                if (shouldModifyUrl(originalRequest)){
 
-                                // Cast the originalUrl to okhttp3.HttpUrl
-                                Object httpUrl = httpUrlClass.cast(originalUrl);
+                                    // Cast the originalUrl to okhttp3.HttpUrl
+                                    Object httpUrl = httpUrlClass.cast(originalUrl);
 
-                                // Modify the 'sid' parameter in the HttpUrl
-                                Object modifiedHttpUrl = modifySidParameter(httpUrl);
+                                    // Modify the 'sid' parameter in the HttpUrl
+                                    Object modifiedHttpUrl = modifySidParameter(httpUrl);
 
-                                // Create a new Request with the updated HttpUrl
-                                Method newBuilderMethod = requestClass.getMethod("newBuilder");
-                                Object newRequestBuilder = newBuilderMethod.invoke(originalRequest); // Use originalRequest, not null
-                                newRequestBuilder.getClass().getMethod("url", httpUrlClass).invoke(newRequestBuilder, modifiedHttpUrl);
-                                Object newRequest = buildMethod.invoke(newRequestBuilder);
+                                    // Create a new Request with the updated HttpUrl
+                                    Method newBuilderMethod = requestClass.getMethod("newBuilder");
+                                    Object newRequestBuilder = newBuilderMethod.invoke(originalRequest); // Use originalRequest, not null
+                                    newRequestBuilder.getClass().getMethod("url", httpUrlClass).invoke(newRequestBuilder, modifiedHttpUrl);
+                                    Object newRequest = buildMethod.invoke(newRequestBuilder);
 
-                                // Log the updated Request
-                                //XposedBridge.log("Updated Request: " + newRequest.toString());
+                                    // Log the updated Request
+                                    //XposedBridge.log("Updated Request: " + newRequest.toString());
 
-                                // Set the updated Request.Builder in the result to replace the original builder
-                                param.setResult(newRequestBuilder);
+                                    // Set the updated Request.Builder in the result to replace the original builder
+                                    param.setResult(newRequestBuilder);
+                                }
+
+                                if (shouldModifySongUrl(originalRequest)){
+                                    // Cast the originalUrl to okhttp3.HttpUrl
+                                    Object httpUrl = httpUrlClass.cast(originalUrl);
+
+                                    // Modify the 'sid' parameter in the HttpUrl
+                                    Object modifiedHttpUrl = modifySidParameterForSong(httpUrl);
+
+                                    // Create a new Request with the updated HttpUrl
+                                    Method newBuilderMethod = requestClass.getMethod("newBuilder");
+                                    Object newRequestBuilder = newBuilderMethod.invoke(originalRequest); // Use originalRequest, not null
+                                    newRequestBuilder.getClass().getMethod("url", httpUrlClass).invoke(newRequestBuilder, modifiedHttpUrl);
+                                    Object newRequest = buildMethod.invoke(newRequestBuilder);
+
+                                    // Log the updated Request
+                                    //XposedBridge.log("Updated Request: " + newRequest.toString());
+
+                                    // Set the updated Request.Builder in the result to replace the original builder
+                                    param.setResult(newRequestBuilder);
+                                }
+
+                                if (shouldDisableAdRequest(originalRequest)){
+                                    // Cast the originalUrl to okhttp3.HttpUrl
+                                    Object httpUrl = httpUrlClass.cast(originalUrl);
+
+                                    // Modify the 'sid' parameter in the HttpUrl
+                                    Object modifiedHttpUrl = modifySidParameterForSong(httpUrl);
+
+                                    // Create a new Request with the updated HttpUrl
+                                    Method newBuilderMethod = requestClass.getMethod("newBuilder");
+                                    Object newRequestBuilder = newBuilderMethod.invoke(originalRequest); // Use originalRequest, not null
+                                    newRequestBuilder.getClass().getMethod("url", httpUrlClass).invoke(newRequestBuilder, modifiedHttpUrl);
+                                    Object newRequest = buildMethod.invoke(newRequestBuilder);
+
+                                    // Log the updated Request
+                                    //XposedBridge.log("Updated Request: " + newRequest.toString());
+
+                                    // Set the updated Request.Builder in the result to replace the original builder
+                                    param.setResult(null);
+                                }
+
+
+                            }
+                            catch (Exception ignored){
+
                             }
                         }
                     }
@@ -514,6 +670,24 @@ public class Module implements IXposedHookLoadPackage {
     }
 
     // Check if the request is an Lyrics one!
+    private boolean shouldModifySongUrl(Object originalRequest) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        // Get the URL from the original Request
+        Method urlMethod = originalRequest.getClass().getMethod("url");
+        Object originalUrl = urlMethod.invoke(originalRequest);
+
+        // Check if originalUrl is not null
+        if (originalUrl != null) {
+            // Convert the originalUrl to a string
+
+            String originalUrlString = originalUrl.toString();
+
+            // Check if the URL contains the specified substring
+            return originalUrlString.contains("/rest/v1/GETsong.view?output=jsonhp&extras=") || originalUrlString.contains("/rest/v1/GETDownload.view?output=jsonhp");
+        }
+
+        return false; // Return false if originalUrl is null
+    }
+
     private boolean shouldModifyUrl(Object originalRequest) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         // Get the URL from the original Request
         Method urlMethod = originalRequest.getClass().getMethod("url");
@@ -527,6 +701,25 @@ public class Module implements IXposedHookLoadPackage {
 
             // Check if the URL contains the specified substring
             return originalUrlString.contains("/rest/v1/GETlyrics.view?output=jsonhp&songid=");
+        }
+
+        return false; // Return false if originalUrl is null
+    }
+
+    private boolean shouldDisableAdRequest(Object originalRequest) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        // Get the URL from the original Request
+        Method urlMethod = originalRequest.getClass().getMethod("url");
+        Object originalUrl = urlMethod.invoke(originalRequest);
+
+        // Check if originalUrl is not null
+        if (originalUrl != null) {
+            // Convert the originalUrl to a string
+
+            String originalUrlString = originalUrl.toString();
+
+            // Check if the URL contains the specified substring
+            return originalUrlString.contains("/rest/v1/GETad.view?output=jsonhp") || originalUrlString.contains("/rest/v1/GETads.view?")
+                    || originalUrlString.contains("/rest/v1/GETadpriorities.view?") || originalUrlString.contains("/rest/v1/REGISTERad.view?");
         }
 
         return false; // Return false if originalUrl is null
@@ -553,6 +746,29 @@ public class Module implements IXposedHookLoadPackage {
 
         return httpUrl;
     }
+
+    private Object modifySidParameterForSong(Object httpUrl) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        if (httpUrl != null) {
+            // Get the query parameter names
+            Method queryParameterNamesMethod = httpUrl.getClass().getMethod("queryParameterNames");
+            Set<String> queryParameterNames = (Set<String>) queryParameterNamesMethod.invoke(httpUrl);
+
+            // Create a new HttpUrl.Builder
+            Object httpUrlBuilder = httpUrl.getClass().getMethod("newBuilder").invoke(httpUrl);
+
+            // Modify the 'sid' parameter
+            if (queryParameterNames.contains("sid")) {
+                httpUrlBuilder.getClass().getMethod("setQueryParameter", String.class, String.class).invoke(httpUrlBuilder, "sid", "i7:dcljdkdif:2ps242qp91qq602n:ecefdcclcldfdk:WB:eig:ra:n7.0.21:200::n7.0.21:0:na:7o57rr384p");
+            }
+
+            // Build the modified HttpUrl
+            return httpUrlBuilder.getClass().getMethod("build").invoke(httpUrlBuilder);
+        }
+
+        return httpUrl;
+    }
+
+
 
     private void showToast(final String text) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {

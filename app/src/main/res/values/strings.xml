@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Anghami Mod</string>
+    <string name="top_red_text">Force stop anghami - Testing for bug bounty program</string>
+    <string name="tested_version">Test with anghami latest version</string>
+    <string name="app_kill">Force stop Anghami Process</string>
+    <string name="version">Version 0.1 Stable</string>
+    <string name="Auth">By @reso7200 - Abdalhaleem Altamimi</string>
+    <string name="features">[*]Features\n\n
+    [$]Plus\n\n
+    [+]Disabled Ads\n
+    [+]Unlocked Prev/Next Song\n
+    [+]Unlocked Higher Audio Quality\n
+    [+]Unlocked Download Songs\n
+    [+]Unlocked Lyrics\n\n
+    [$]Gold\n\n
+    [+]Upload to the Cloud\n
+    [+]Sing Along\n\n
+    [$]Live Radio\n\n
+    [+]1 clap = 10 claps\n</string>
+</resources>
